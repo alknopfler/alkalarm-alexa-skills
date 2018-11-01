@@ -41,8 +41,8 @@ func (h *AlkAlarm) OnLaunch(context context.Context, request *alexa.Request, ses
 	log.Printf("OnLaunch requestId=%s, sessionId=%s", request.RequestID, session.SessionID)
 
 	response.SetSimpleCard(cardTitle, speechText)
-	response.SetOutputText(speechText)
-	response.SetRepromptText(speechText)
+	response.SetOutputSSML(speechText)
+	response.SetRepromptSSML(speechText)
 
 	response.ShouldSessionEnd = true
 
@@ -96,10 +96,10 @@ func activateAlarm(request *alexa.Request, response *alexa.Response){
 
 	if respNew.StatusCode == http.StatusOK {
 		response.SetSimpleCard(cardTitle, speechText)
-		response.SetOutputText(speechText)
+		response.SetOutputSSML(speechText)
 	}else{
 		response.SetSimpleCard(cardTitle, "ERROR DOING THE ACTIVATION ALARM")
-		response.SetOutputText("ERROR DOING THE ACTIVATION ALARM ")
+		response.SetOutputSSML("ERROR DOING THE ACTIVATION ALARM ")
 	}
 
 	log.Printf("Set Output speech, value now: %s", response.OutputSpeech.Text)
@@ -119,10 +119,10 @@ func deactivateAlarm(request *alexa.Request, response *alexa.Response){
 
 	if respNew.StatusCode == http.StatusOK {
 		response.SetSimpleCard(cardTitle, speechText)
-		response.SetOutputText(speechText)
+		response.SetOutputSSML(speechText)
 	}else{
 		response.SetSimpleCard(cardTitle, "ERROR DOING THE DEACTIVATION ALARM")
-		response.SetOutputText("ERROR DOING THE DEACTIVATION ALARM ")
+		response.SetOutputSSML("ERROR DOING THE DEACTIVATION ALARM ")
 	}
 
 	log.Printf("Set Output speech, value now: %s", response.OutputSpeech.Text)
@@ -145,10 +145,10 @@ func statusAlarm(request *alexa.Request, response *alexa.Response){
 	data, _ := ioutil.ReadAll(respNew.Body)
 	if string(data) == "full" {
 		response.SetSimpleCard(cardTitle, activated)
-		response.SetOutputText(activated)
+		response.SetOutputSSML(activated)
 	}else{
 		response.SetSimpleCard(cardTitle, desactivated)
-		response.SetOutputText(desactivated)
+		response.SetOutputSSML(desactivated)
 	}
 
 	log.Printf("Set Output speech, value now: %s", response.OutputSpeech.Text)
