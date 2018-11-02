@@ -36,7 +36,7 @@ func (h *AlkAlarm) OnSessionStarted(context context.Context, request *alexa.Requ
 
 // OnLaunch called with a reqeust is received of type LaunchRequest
 func (h *AlkAlarm) OnLaunch(context context.Context, request *alexa.Request, session *alexa.Session, aContext *alexa.Context, response *alexa.Response) error {
-	speechText := "Welcome to AlkAlarm system. Starting the Alarm"
+	speechText := "Bienvenido al sistema de alarma de seguridad alkalarm"
 
 	log.Printf("OnLaunch requestId=%s, sessionId=%s", request.RequestID, session.SessionID)
 
