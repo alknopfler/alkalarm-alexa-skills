@@ -16,7 +16,7 @@ var URL = "http://alknopfler.ddns.net:8080"
 
 var a = &alexa.Alexa{ApplicationID: "amzn1.ask.skill.cbf2eb74-9b14-4752-b39c-2bec61845037", RequestHandler: &AlkAlarm{}, IgnoreTimestamp: true}
 
-const cardTitle = "AlkAlarm"
+const cardTitle = "AlkAlarm Alarma Seguridad"
 
 // Alkalarm struct for request from the alkalarm skill.
 type AlkAlarm struct{}
@@ -36,12 +36,12 @@ func (h *AlkAlarm) OnSessionStarted(context context.Context, request *alexa.Requ
 
 // OnLaunch called with a reqeust is received of type LaunchRequest
 func (h *AlkAlarm) OnLaunch(context context.Context, request *alexa.Request, session *alexa.Session, aContext *alexa.Context, response *alexa.Response) error {
-	speechText := "Bienvenido al sistema de alarma de seguridad alkalarm"
+	speechText := "Bienvenido al sistema de alarma de seguridad"
 
 	log.Printf("OnLaunch requestId=%s, sessionId=%s", request.RequestID, session.SessionID)
 
 	response.SetSimpleCard(cardTitle, speechText)
-	response.SetOutputSSML(speechText)
+	response.SetOutputText(speechText)
 	response.SetRepromptSSML(speechText)
 
 	response.ShouldSessionEnd = true
@@ -78,7 +78,7 @@ func (h *AlkAlarm) OnSessionEnded(context context.Context, request *alexa.Reques
 
 func activateAlarm(request *alexa.Request, response *alexa.Response){
 	log.Println("ActiveAlarm triggered")
-	speechText := "AlkAlarm Activada puedes salir con seguridad de casa"
+	speechText := "Alarma de Seguridad Activada. Puedes salir con seguridad de casa"
 
 	if len(request.Intent.Slots) == 1 {
 		log.Println(request.Intent.Slots["dentrode"].Resolutions)
@@ -96,10 +96,10 @@ func activateAlarm(request *alexa.Request, response *alexa.Response){
 
 	if respNew.StatusCode == http.StatusOK {
 		response.SetSimpleCard(cardTitle, speechText)
-		response.SetOutputSSML(speechText)
+		response.SetOutputText(speechText)
 	}else{
 		response.SetSimpleCard(cardTitle, "ERROR DOING THE ACTIVATION ALARM")
-		response.SetOutputSSML("ERROR DOING THE ACTIVATION ALARM ")
+		response.SetOutputText("ERROR DOING THE ACTIVATION ALARM ")
 	}
 
 	log.Printf("Set Output speech, value now: %s", response.OutputSpeech.Text)
@@ -107,7 +107,7 @@ func activateAlarm(request *alexa.Request, response *alexa.Response){
 
 func deactivateAlarm(request *alexa.Request, response *alexa.Response){
 	log.Println("DeactiveAlarm triggered")
-	speechText := "AlkAlarm Desactivada puedes entrar con seguridad en casa"
+	speechText := "Alarma de Seguridad Desactivada. Puedes entrar con seguridad en casa"
 
 	reqNew, _ := http.NewRequest("POST", URL + "/deactivate", nil)
 	reqNew.Header.Set("Content-Type", "application/json")
@@ -119,10 +119,10 @@ func deactivateAlarm(request *alexa.Request, response *alexa.Response){
 
 	if respNew.StatusCode == http.StatusOK {
 		response.SetSimpleCard(cardTitle, speechText)
-		response.SetOutputSSML(speechText)
+		response.SetOutputText(speechText)
 	}else{
 		response.SetSimpleCard(cardTitle, "ERROR DOING THE DEACTIVATION ALARM")
-		response.SetOutputSSML("ERROR DOING THE DEACTIVATION ALARM ")
+		response.SetOutputText("ERROR DOING THE DEACTIVATION ALARM ")
 	}
 
 	log.Printf("Set Output speech, value now: %s", response.OutputSpeech.Text)
@@ -145,10 +145,10 @@ func statusAlarm(request *alexa.Request, response *alexa.Response){
 	data, _ := ioutil.ReadAll(respNew.Body)
 	if string(data) == "full" {
 		response.SetSimpleCard(cardTitle, activated)
-		response.SetOutputSSML(activated)
+		response.SetOutputText(activated)
 	}else{
 		response.SetSimpleCard(cardTitle, desactivated)
-		response.SetOutputSSML(desactivated)
+		response.SetOutputText(desactivated)
 	}
 
 	log.Printf("Set Output speech, value now: %s", response.OutputSpeech.Text)
