@@ -5,7 +5,7 @@ import (
 	"log"
 	"net/http"
 	"crypto/tls"
-	cfg "github.com/alknopfler/test-alexa-skills/config"
+	cfg "github.com/alknopfler/alkalarm-alexa-skills/config"
 
 	"io/ioutil"
 )

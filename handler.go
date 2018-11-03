@@ -8,8 +8,8 @@ import (
 	"github.com/aws/aws-lambda-go/lambda"
 	"github.com/ericdaugherty/alexa-skills-kit-golang"
 
-	f "github.com/alknopfler/test-alexa-skills/function"
-	cfg "github.com/alknopfler/test-alexa-skills/config"
+	f "github.com/alknopfler/alkalarm-alexa-skills/function"
+	cfg "github.com/alknopfler/alkalarm-alexa-skills/config"
 )
 
 

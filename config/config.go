@@ -14,7 +14,7 @@ const(
 	PathStatus				= "/status"
 
 	CardTitle 				= "AlkAlarm Alarma Seguridad"
-	ImageSmall 				= "https://i.imgur.com/RhV5Jbc.png?1"
+	ImageSmall 				= ImageLong
 	ImageLong 				= "http://oi63.tinypic.com/23hrs45.jpg"
 
 )
