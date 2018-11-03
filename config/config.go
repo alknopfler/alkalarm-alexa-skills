@@ -14,8 +14,8 @@ const(
 	PathStatus				= "/status"
 
 	CardTitle 				= "AlkAlarm Alarma Seguridad"
-	ImageSmall 				= ImageLong
-	ImageLong 				= "http://oi63.tinypic.com/23hrs45.jpg"
+	ImageSmall 				= "https://raw.githubusercontent.com/alknopfler/alkalarm-alexa-skills/master/images/RhV5Jbc.png"
+	ImageLong 				= "https://raw.githubusercontent.com/alknopfler/alkalarm-alexa-skills/master/images/logo.png"
 
 )
 
