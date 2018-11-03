@@ -8,20 +8,22 @@ import (
 	cfg "github.com/alknopfler/alkalarm-alexa-skills/config"
 
 	"io/ioutil"
+	"time"
 )
 
-func ActivateAlarm(request *alexa.Request, response *alexa.Response){
-	log.Println("ActiveAlarm triggered")
+func ActivateAlarmFull(request *alexa.Request, response *alexa.Response){
+	log.Println("ActiveAlarm Full triggered")
 
 	if len(request.Intent.Slots) == 1 {
-		log.Println(request.Intent.Slots["dentrode"].Resolutions)
-		delay := request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority[0].Values[0].Value.Name
+		delay := request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority[0].Values[0].Value.ID
 		log.Println("El delay será: "+delay)
-		response.SetOutputText(cfg.SpeechDelay + delay)
+		response.SetOutputText(cfg.SpeechDelay + delay + " segundos")
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechDelay, cfg.ImageSmall, cfg.ImageLong)
+		d , _ := time.ParseDuration(delay+"s")
+		time.Sleep(time.Second * d)
 	}
 
-	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivate)
+	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivateFull)
 
 	if respNew.StatusCode == http.StatusOK {
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnActivate, cfg.ImageSmall, cfg.ImageLong)
@@ -33,6 +35,32 @@ func ActivateAlarm(request *alexa.Request, response *alexa.Response){
 
 	log.Printf("Set Output speech, value now: %s", response.OutputSpeech.Text)
 }
+
+func ActivateAlarmPartial(request *alexa.Request, response *alexa.Response){
+	log.Println("ActiveAlarm Partial triggered")
+
+	if len(request.Intent.Slots) == 1 {
+		delay := request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority[0].Values[0].Value.ID
+		log.Println("El delay será: "+delay)
+		response.SetOutputText(cfg.SpeechDelay + delay + " segundos")
+		response.SetStandardCard(cfg.CardTitle, cfg.SpeechDelay, cfg.ImageSmall, cfg.ImageLong)
+		d , _ := time.ParseDuration(delay+"s")
+		time.Sleep(time.Second * d)
+	}
+
+	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivatePartial)
+
+	if respNew.StatusCode == http.StatusOK {
+		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnActivate, cfg.ImageSmall, cfg.ImageLong)
+		response.SetOutputText(cfg.SpeechOnActivate)
+	}else{
+		response.SetSimpleCard(cfg.CardTitle, "ERROR DOING THE ACTIVATION ALARM")
+		response.SetOutputText("ERROR DOING THE ACTIVATION ALARM ")
+	}
+
+	log.Printf("Set Output speech, value now: %s", response.OutputSpeech.Text)
+}
+
 
 func DeactivateAlarm(request *alexa.Request, response *alexa.Response){
 	log.Println("DeactiveAlarm triggered")

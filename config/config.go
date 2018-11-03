@@ -5,11 +5,13 @@ const(
 	URL 					= "http://alknopfler.ddns.net:8080"
 	Method					= "POST"
 
-	ActiveIntent			= "activeAlarm"
+	ActiveIntent			= "activeAlarmFull"
+	ActivePartialIntent		= "activeAlarmPartial"
 	DeactiveIntent			= "deactivateAlarm"
 	StatusIntent			= "statusAlarm"
 
-	PathActivate 			= "/activate/full"
+	PathActivateFull 		= "/activate/full"
+	PathActivatePartial 	= "/activate/partial"
 	PathDeactivate			= "/deactivate"
 	PathStatus				= "/status"
 
