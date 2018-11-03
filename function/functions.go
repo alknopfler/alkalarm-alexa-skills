@@ -14,13 +14,6 @@ import (
 func ActivateAlarmFull(request *alexa.Request, response *alexa.Response){
 	log.Println("ActiveAlarm Full triggered")
 
-	if len(request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority) == 1 {
-		delay := request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority[0].Values[0].Value.ID
-		log.Println("El delay será: "+delay)
-		d := parseTextTime(delay)
-		time.Sleep(d)
-	}
-
 	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivateFull)
 
 	if respNew.StatusCode == http.StatusOK {
@@ -36,15 +29,6 @@ func ActivateAlarmFull(request *alexa.Request, response *alexa.Response){
 
 func ActivateAlarmPartial(request *alexa.Request, response *alexa.Response){
 	log.Println("ActiveAlarm Partial triggered")
-
-	if len(request.Intent.Slots) == 1 {
-		delay := request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority[0].Values[0].Value.Name
-		log.Println("El delay será: "+delay)
-		response.SetOutputText(cfg.SpeechDelay + delay)
-		response.SetStandardCard(cfg.CardTitle, cfg.SpeechDelay, cfg.ImageSmall, cfg.ImageLong)
-		d := parseTextTime(delay)
-		time.Sleep(d)
-	}
 
 	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivatePartial)
 
