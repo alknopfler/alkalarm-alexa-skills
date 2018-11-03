@@ -55,7 +55,7 @@ func StatusAlarm(request *alexa.Request, response *alexa.Response){
 
 	respNew := doRequest(cfg.Method, cfg.URL + cfg.PathDeactivate)
 	body, _ := ioutil.ReadAll(respNew.Body)
-
+	log.Println("el body es:" + string(body))
 	switch string(body) {
 	case "inactive":
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnStatusOFF, cfg.ImageSmall, cfg.ImageLong)
