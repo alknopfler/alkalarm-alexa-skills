@@ -19,8 +19,8 @@ func ActivateAlarmFull(request *alexa.Request, response *alexa.Response){
 		log.Println("El delay será: "+delay)
 		response.SetOutputText(cfg.SpeechDelay + delay + " segundos")
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechDelay, cfg.ImageSmall, cfg.ImageLong)
-		d , _ := time.ParseDuration(delay+"s")
-		time.Sleep(time.Second * d)
+		d := parseTextTime(delay)
+		time.Sleep(d)
 	}
 
 	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivateFull)
@@ -40,12 +40,12 @@ func ActivateAlarmPartial(request *alexa.Request, response *alexa.Response){
 	log.Println("ActiveAlarm Partial triggered")
 
 	if len(request.Intent.Slots) == 1 {
-		delay := request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority[0].Values[0].Value.ID
+		delay := request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority[0].Values[0].Value.Name
 		log.Println("El delay será: "+delay)
-		response.SetOutputText(cfg.SpeechDelay + delay + " segundos")
+		response.SetOutputText(cfg.SpeechDelay + delay)
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechDelay, cfg.ImageSmall, cfg.ImageLong)
-		d , _ := time.ParseDuration(delay+"s")
-		time.Sleep(time.Second * d)
+		d := parseTextTime(delay)
+		time.Sleep(d)
 	}
 
 	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivatePartial)
@@ -113,4 +113,18 @@ func doRequest(method, apiURL string) *http.Response{
 	client := &http.Client{Transport: tr}
 	respNew, _ := client.Do(reqNew)
 	return respNew
+}
+
+func parseTextTime(a string) time.Duration {
+	if a != ""{
+		switch a {
+
+		case "cinco segundos":
+			return (5 * time.Second)
+		case "diez segundos":
+			return (10 * time.Second)
+		case "treinta segundos":
+			return (30 * time.Second)
+		}
+	}
 }
