@@ -14,11 +14,9 @@ import (
 func ActivateAlarmFull(request *alexa.Request, response *alexa.Response){
 	log.Println("ActiveAlarm Full triggered")
 
-	if len(request.Intent.Slots) == 1 {
+	if len(request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority) == 1 {
 		delay := request.Intent.Slots["dentrode"].Resolutions.ResolutionsPerAuthority[0].Values[0].Value.ID
 		log.Println("El delay será: "+delay)
-		response.SetOutputText(cfg.SpeechDelay + delay + " segundos")
-		response.SetStandardCard(cfg.CardTitle, cfg.SpeechDelay, cfg.ImageSmall, cfg.ImageLong)
 		d := parseTextTime(delay)
 		time.Sleep(d)
 	}
