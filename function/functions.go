@@ -21,7 +21,7 @@ func ActivateAlarm(request *alexa.Request, response *alexa.Response){
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechDelay, cfg.ImageSmall, cfg.ImageLong)
 	}
 
-	respNew := doRequest(cfg.Method, cfg.URL + cfg.PathActivate)
+	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivate)
 
 	if respNew.StatusCode == http.StatusOK {
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnActivate, cfg.ImageSmall, cfg.ImageLong)
@@ -37,7 +37,7 @@ func ActivateAlarm(request *alexa.Request, response *alexa.Response){
 func DeactivateAlarm(request *alexa.Request, response *alexa.Response){
 	log.Println("DeactiveAlarm triggered")
 
-	respNew := doRequest(cfg.Method, cfg.URL + cfg.PathDeactivate)
+	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathDeactivate)
 
 	if respNew.StatusCode == http.StatusOK {
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnDeactivate, cfg.ImageSmall, cfg.ImageLong)
@@ -53,7 +53,7 @@ func DeactivateAlarm(request *alexa.Request, response *alexa.Response){
 func StatusAlarm(request *alexa.Request, response *alexa.Response){
 	log.Println("StatusAlarm triggered")
 
-	respNew := doRequest(cfg.Method, cfg.URL + cfg.PathStatus)
+	respNew := doRequest(http.MethodGet, cfg.URL + cfg.PathStatus)
 	body, _ := ioutil.ReadAll(respNew.Body)
 	log.Println("el body es:" + string(body))
 	switch string(body) {
