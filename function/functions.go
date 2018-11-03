@@ -118,7 +118,6 @@ func doRequest(method, apiURL string) *http.Response{
 func parseTextTime(a string) time.Duration {
 	if a != ""{
 		switch a {
-
 		case "cinco segundos":
 			return (5 * time.Second)
 		case "diez segundos":
@@ -127,4 +126,5 @@ func parseTextTime(a string) time.Duration {
 			return (30 * time.Second)
 		}
 	}
+	return 1 * time.Second
 }
