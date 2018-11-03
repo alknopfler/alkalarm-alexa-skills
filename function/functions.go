@@ -26,8 +26,8 @@ func ActivateAlarmFull(request *alexa.Request, response *alexa.Response){
 	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivateFull)
 
 	if respNew.StatusCode == http.StatusOK {
-		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnActivate, cfg.ImageSmall, cfg.ImageLong)
-		response.SetOutputText(cfg.SpeechOnActivate)
+		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnActivateFull, cfg.ImageSmall, cfg.ImageLong)
+		response.SetOutputText(cfg.SpeechOnActivateFull)
 	}else{
 		response.SetSimpleCard(cfg.CardTitle, "ERROR DOING THE ACTIVATION ALARM")
 		response.SetOutputText("ERROR DOING THE ACTIVATION ALARM ")
@@ -51,8 +51,8 @@ func ActivateAlarmPartial(request *alexa.Request, response *alexa.Response){
 	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivatePartial)
 
 	if respNew.StatusCode == http.StatusOK {
-		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnActivate, cfg.ImageSmall, cfg.ImageLong)
-		response.SetOutputText(cfg.SpeechOnActivate)
+		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnActivatePartial, cfg.ImageSmall, cfg.ImageLong)
+		response.SetOutputText(cfg.SpeechOnActivatePartial)
 	}else{
 		response.SetSimpleCard(cfg.CardTitle, "ERROR DOING THE ACTIVATION ALARM")
 		response.SetOutputText("ERROR DOING THE ACTIVATION ALARM ")

@@ -49,7 +49,7 @@ func (h *AlkAlarm) OnIntent(context context.Context, request *alexa.Request, ses
 	log.Printf("OnIntent requestId=%s, sessionId=%s, intent=%s", request.RequestID, session.SessionID, request.Intent.Name)
 
 	switch request.Intent.Name {
-	case cfg.ActiveIntent:
+	case cfg.ActiveFullIntent:
 		f.ActivateAlarmFull(request,response)
 	case cfg.ActivePartialIntent:
 		f.ActivateAlarmPartial(request,response)
