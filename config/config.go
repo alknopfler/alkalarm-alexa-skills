@@ -15,7 +15,7 @@ const(
 
 	CardTitle 				= "AlkAlarm Alarma Seguridad"
 	ImageSmall 				= "https://i.imgur.com/RhV5Jbc.png?1"
-	ImageLong 				= "https://imgur.com/RhV5Jbc"
+	ImageLong 				= "http://oi63.tinypic.com/23hrs45.jpg"
 
 )
 
