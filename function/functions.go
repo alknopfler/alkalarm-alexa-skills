@@ -53,7 +53,7 @@ func DeactivateAlarm(request *alexa.Request, response *alexa.Response){
 func StatusAlarm(request *alexa.Request, response *alexa.Response){
 	log.Println("StatusAlarm triggered")
 
-	respNew := doRequest(cfg.Method, cfg.URL + cfg.PathDeactivate)
+	respNew := doRequest(cfg.Method, cfg.URL + cfg.PathStatus)
 	body, _ := ioutil.ReadAll(respNew.Body)
 	log.Println("el body es:" + string(body))
 	switch string(body) {
