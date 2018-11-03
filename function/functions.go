@@ -57,13 +57,13 @@ func StatusAlarm(request *alexa.Request, response *alexa.Response){
 	body, _ := ioutil.ReadAll(respNew.Body)
 	log.Println("el body es:" + string(body))
 	switch string(body) {
-	case "inactive":
+	case "\"inactive\"":
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnStatusOFF, cfg.ImageSmall, cfg.ImageLong)
 		response.SetOutputText(cfg.SpeechOnStatusOFF)
-	case "full":
+	case "\"full\"":
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnStatusONFull, cfg.ImageSmall, cfg.ImageLong)
 		response.SetOutputText(cfg.SpeechOnStatusONFull)
-	case "partial":
+	case "\"partial\"":
 		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnStatusONPartial, cfg.ImageSmall, cfg.ImageLong)
 		response.SetOutputText(cfg.SpeechOnStatusONPartial)
 	default:
