@@ -31,10 +31,9 @@ As you can see, we have to define 3 things:
 
 1-. Create your voice user interface for Alexa skill
 
-2-. Create the skills definition in AWS Alexa development console.
+2-. Create the lambda code to response the skills questions integrating that with your service.
 
-3-. Create the lambda code to response the skills questions integrating that with your service.
-
+3-. Create the skills definition in AWS Alexa development console.
 
 ## 1 - Create your voice user interface for alexa skills
 
@@ -52,42 +51,6 @@ The fields are:
  At this point, the first approach was "alkAlarm", but doing tests, I discovered that it has a non-natural pronunciation in spanish for alexa. I changed it to "alarm system" which is more easy to understand for alexa.
  * **Utterances**: That's the most important part because it's your own creation to interact with the system. I recommend to create over 10 or more examples with synonymous 
  * **Slots**: It's so important if you want to create different behaviours of your system based on time, date, size, and so on.
-
-## 2 - Create the Skill in AWS Alexa development console
-
-The first thing that you have to do is create an account in Alexa development console (it's totally free):
-
-After the first point, you could create a new skill:
-![dev1](./images/dev1.png)
-
-The first point is create the next elements:
-
-![dev2](./images/dev2.png)
-
-For the intent, you have to select the name keeping in mind the recommendation done before:
-
-![dev3](./images/dev3.png)
-
-After that, we have to define the language to interact with alexa:
-
-![dev4](./images/dev4.png)
-
-![dev5](./images/dev5.png)
-
-![dev6](./images/dev6.png)
-
-After we have all the phrases to interact with alexa, we have to define the reference to lambda using the endpoint section:
-Let's came back here in the next session (after lambda creation phase)
-
-![dev7](./images/dev7.png)
-
-Wow!!! Right now, we can test the application with the test feature console:
-
-![dev8](./images/dev8.png)
-
-and test if the skill has any error to distribute to the real world ;)
-
-![dev9](./images/dev9.png)
 
 
 ## 2 - Create the lambda code in Golang
@@ -109,6 +72,23 @@ type RequestHandler interface {
 	OnSessionEnded(context.Context, *Request, *Session, *Context, *Response) error
 }
 ```
+
+For the **OnSessionStarted** function you could create some auth steps before anything happen with alexa.
+In my case, we don't have any special task to do
+
+For the **OnLaunch** function we're gonna give the user the welcome to the alarm system.
+Also, we're gonna finish the session. It that make sense because in our voice interface definition we decided join all the action in one phrase.
+```
+response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnLaunch, cfg.ImageSmall, cfg.ImageLong)
+	response.SetOutputText(cfg.SpeechOnLaunch)
+	response.SetRepromptSSML(cfg.SpeechOnLaunch)
+
+	response.ShouldSessionEnd = true
+```
+
+For the **OnSessionEnded** function we don't have any special information to do with Alexa.
+
+The **OnIntent** function will be checked here a little bit later in the same section.
 
 To do that and with the main idea of organize the code we define the next structure:
 
@@ -176,3 +156,70 @@ This is the most important phase in order to create an effective interaction wit
     
     	return nil
     }
+    
+
+Now, the last step is to upload the code to lambda aws service. To do that, we use an example code using the makefile. The important part of the makefile
+is the way to build, create the lambda file and upload to aws service:
+
+```
+ROLE_ARN=`aws iam get-role --role-name lambda_basic_execution --query 'Role.Arn' --output text`
+
+all: build pack
+
+build:
+	@GOARCH=amd64 GOOS=linux go build -o $(HANDLER)
+
+pack:
+	@zip $(PACKAGE).zip $(HANDLER)
+
+clean:
+	@rm -rf $(HANDLER) $(PACKAGE).zip
+
+create:
+	@aws lambda create-function                                                  \
+	  --function-name AlkAlarmAlexa                                                 \
+	  --zip-file fileb://handler.zip                                             \
+	  --role $(ROLE_ARN)                                                         \
+	  --runtime go1.x                                                       \
+	  --handler handler
+
+```
+
+
+## 3 - Create the Skill in AWS Alexa development console
+
+The first thing that you have to do is create an account in Alexa development console (it's totally free):
+
+After the first point, you could create a new skill:
+![dev1](./images/dev1.png)
+
+The first point is create the next elements:
+
+![dev2](./images/dev2.png)
+
+For the intent, you have to select the name keeping in mind the recommendation done before:
+
+![dev3](./images/dev3.png)
+
+After that, we have to define the language to interact with alexa:
+
+![dev4](./images/dev4.png)
+
+![dev5](./images/dev5.png)
+
+![dev6](./images/dev6.png)
+
+After we have all the phrases to interact with alexa, we have to define the reference to lambda using the endpoint section:
+Let's came back here in the next session (after lambda creation phase)
+
+![dev7](./images/dev7.png)
+
+Wow!!! Right now, we can test the application with the test feature console:
+
+![dev8](./images/dev8.png)
+
+and test if the skill has any error to distribute to the real world ;)
+
+![dev9](./images/dev9.png)
+
+
