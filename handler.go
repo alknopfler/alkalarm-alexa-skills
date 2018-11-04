@@ -28,6 +28,7 @@ func Handle(ctx context.Context, requestEnv *alexa.RequestEnvelope) (interface{}
 func (h *AlkAlarm) OnSessionStarted(context context.Context, request *alexa.Request, session *alexa.Session, aContext *alexa.Context, response *alexa.Response) error {
 	log.Printf("OnSessionStarted requestId=%s, sessionId=%s", request.RequestID, session.SessionID)
 		//Can be usefull to login internally with the end service
+
 	return nil
 }
 
