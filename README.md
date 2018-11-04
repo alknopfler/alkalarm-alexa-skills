@@ -36,7 +36,7 @@ As you can see, we have to define 3 things:
 3-. Create the lambda code to response the skills questions integrating that with your service.
 
 
-## Create your voice user interface for alexa skills
+## 1 - Create your voice user interface for alexa skills
 
 First of all, reading the aws alexa development documentation you could find the voice structure in order to create the skill.
 It's important to define a human language to make easy interact with Alexa without forcing the language.
@@ -53,5 +53,39 @@ The fields are:
  * **Utterances**: That's the most important part because it's your own creation to interact with the system. I recommend to create over 10 or more examples with synonymous 
  * **Slots**: It's so important if you want to create different behaviours of your system based on time, date, size, and so on.
 
-## Create the Skill in AWS Alexa development console
+## 2 - Create the Skill in AWS Alexa development console
+
+The first thing that you have to do is create an account in Alexa development console (it's totally free):
+
+After the first point, you could create a new skill:
+![dev1](./images/dev1.png)
+
+The first point is create the next elements:
+
+![dev2](./images/dev2.png)
+
+For the intent, you have to select the name keeping in mind the recommendation done before:
+
+![dev3](./images/dev3.png)
+
+After that, we have to define the language to interact with alexa:
+
+![dev4](./images/dev4.png)
+
+![dev5](./images/dev5.png)
+
+![dev6](./images/dev6.png)
+
+After we have all the phrases to interact with alexa, we have to define the reference to lambda using the endpoint section:
+Let's came back here in the next session (after lambda creation phase)
+
+![dev7](./images/dev7.png)
+
+Wow!!! Right now, we can test the application with the test feature console:
+
+![dev8](./images/dev8.png)
+
+and test if the skill has any error to distribute to the real world ;)
+
+![dev9](./images/dev9.png)
 
