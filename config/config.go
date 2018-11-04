@@ -1,8 +1,8 @@
 package config
 
 const(
-	AppID					= "amzn1.ask.skill.cbf2eb74-9b14-4752-b39c-2bec61845037"
-	URL 					= "http://alknopfler.ddns.net:8080"
+	AppID					= "amzn1.ask.skill.cbf2eb74-xxxx-xxxxx"
+	URL 					= "http://xxxxx:8080"
 	Method					= "POST"
 
 	ActiveFullIntent		= "activeAlarmFull"

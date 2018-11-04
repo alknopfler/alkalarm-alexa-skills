@@ -89,3 +89,90 @@ and test if the skill has any error to distribute to the real world ;)
 
 ![dev9](./images/dev9.png)
 
+
+## 2 - Create the lambda code in Golang
+
+For that phase we're using the next library (thanks a lot for the contribution to golang community):
+
+[http://github.com/ericdaugherty/alexa-skills-kit-golang]("http://github.com/ericdaugherty/alexa-skills-kit-golang")
+
+Using the library we're able to use all the aws-skills sdk but with golang language:
+
+From the library, we've to implement the next interface functions to adapt to our needs:
+
+
+```
+type RequestHandler interface {
+	OnSessionStarted(context.Context, *Request, *Session, *Context, *Response) error
+	OnLaunch(context.Context, *Request, *Session, *Context, *Response) error
+	OnIntent(context.Context, *Request, *Session, *Context, *Response) error
+	OnSessionEnded(context.Context, *Request, *Session, *Context, *Response) error
+}
+```
+
+To do that and with the main idea of organize the code we define the next structure:
+
+* **config/message.go**: With the list of messages to the speech function library
+    ```
+    const (
+    	SpeechOnLaunch 			= "Bienvenido al sistema de alarma de seguridad"
+    	SpeechOnActivateFull 	= "Alarma de Seguridad Activada Completamente. Tienes 30 segundos para salir de casa"
+    	SpeechOnActivatePartial = "Alarma de Seguridad Activada solo para el perímetro. Dentro de 30 segundos los detectores de presencia serán desactivados"
+    	SpeechOnDeactivate 		= "Alarma de Seguridad Desactivada. Puedes entrar con seguridad en casa"
+    	SpeechOnStatusONFull	= "La alarma está activada completamente"
+    	SpeechOnStatusONPartial = "La alarma está activada sólo en modo perímetro"
+    	SpeechOnStatusOFF 		= "La alarma está desactivada"
+    )
+    ```
+* **config/config.go**: With the app configuration and the alkalarm endpoint config params
+    ```
+    ...
+        PathActivateFull 		= "/activate/full"
+    	PathActivatePartial 	= "/activate/partial"
+    	PathDeactivate			= "/deactivate"
+    	PathStatus				= "/status"
+    	CardTitle 				= "AlkAlarm Alarma Seguridad" 
+    ...
+    ```
+* **function/functions.go**: Implementation of the interface with the alkalarm endpoints logic
+
+    For example, with the activation, we have to do the request to alkalarm activation api, and then, create the dialog with alexa in the response:
+    ```
+    func ActivateAlarmFull(request *alexa.Request, response *alexa.Response){
+    	log.Println("ActiveAlarm Full triggered")
+    
+    	respNew := doRequest(http.MethodPost, cfg.URL + cfg.PathActivateFull)
+    
+    	if respNew.StatusCode == http.StatusOK {
+    		response.SetStandardCard(cfg.CardTitle, cfg.SpeechOnActivateFull, cfg.ImageSmall, cfg.ImageLong)
+    		response.SetOutputText(cfg.SpeechOnActivateFull)
+    	}else{
+    		response.SetSimpleCard(cfg.CardTitle, "ERROR DOING THE ACTIVATION ALARM")
+    		response.SetOutputText("ERROR DOING THE ACTIVATION ALARM ")
+    	}
+    
+    	log.Printf("Set Output speech, value now: %s", response.OutputSpeech.Text)
+    }
+    ```
+    
+Obviously, we have to join all the functions into a handler router to know which intent we have to use.
+This is the most important phase in order to create an effective interaction with alexa:
+
+    func (h *AlkAlarm) OnIntent(context context.Context, request *alexa.Request, session *alexa.Session, aContext *alexa.Context, response *alexa.Response) error {
+    	log.Printf("OnIntent requestId=%s, sessionId=%s, intent=%s", request.RequestID, session.SessionID, request.Intent.Name)
+    
+    	switch request.Intent.Name {
+    	case cfg.ActiveFullIntent:
+    		f.ActivateAlarmFull(request,response)
+    	case cfg.ActivePartialIntent:
+    		f.ActivateAlarmPartial(request,response)
+    	case cfg.DeactiveIntent:
+    		f.DeactivateAlarm(request,response)
+    	case cfg.StatusIntent:
+    		f.StatusAlarm(request,response)
+    	default:
+    		return errors.New("Invalid Intent")
+    	}
+    
+    	return nil
+    }
