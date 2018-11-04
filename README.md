@@ -57,7 +57,7 @@ The fields are:
 
 For that phase we're using the next library (thanks a lot for the contribution to golang community):
 
-[http://github.com/ericdaugherty/alexa-skills-kit-golang]("http://github.com/ericdaugherty/alexa-skills-kit-golang")
+<http://github.com/ericdaugherty/alexa-skills-kit-golang>
 
 Using the library we're able to use all the aws-skills sdk but with golang language:
 
