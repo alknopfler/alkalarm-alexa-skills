@@ -1,0 +1,78 @@
+{
+  "interactionModel": {
+    "languageModel": {
+      "invocationName": "la alarma de seguridad",
+      "intents": [
+        {
+          "name": "AMAZON.CancelIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.HelpIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.StopIntent",
+          "samples": []
+        },
+        {
+          "name": "AMAZON.NavigateHomeIntent",
+          "samples": []
+        },
+        {
+          "name": "activeAlarmFull",
+          "slots": [],
+          "samples": [
+            "activa la alarma completamente",
+            "enciéndela completamente",
+            "actívala completamente",
+            "enciéndela",
+            "enciende la alarma",
+            "actívala",
+            " activa la alarma",
+            "activar alarma de seguridad"
+          ]
+        },
+        {
+          "name": "deactivateAlarm",
+          "slots": [],
+          "samples": [
+            "párala",
+            "para la alarma",
+            "desactívala",
+            "desactiva la alarma"
+          ]
+        },
+        {
+          "name": "statusAlarm",
+          "slots": [],
+          "samples": [
+            "dime su estado",
+            "dime cuál es su estado",
+            "dime el estado de la alarma",
+            "dime el estado",
+            "dime como está la alarma de seguridad",
+            "cual es el estado de la alarma de seguridad"
+          ]
+        },
+        {
+          "name": "activeAlarmPartial",
+          "slots": [],
+          "samples": [
+            "enciendela parcialmente",
+            "activa parcialmente la alarma",
+            "enciende solo la alarma de perímetro ",
+            "activa solo el perímetro ",
+            "activa la alarma de perímetro",
+            "actíva la alarma de perímetro ",
+            "enciende sólo la alarma de perímetro",
+            "enciende la alarma de perimetro ",
+            "activa el perimetro",
+            "actívala parcialmente "
+          ]
+        }
+      ],
+      "types": []
+    }
+  }
+}

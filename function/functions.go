@@ -101,11 +101,11 @@ func parseTextTime(a string) time.Duration {
 	if a != ""{
 		switch a {
 		case "cinco segundos":
-			return (5 * time.Second)
+			return 5 * time.Second
 		case "diez segundos":
-			return (10 * time.Second)
+			return 10 * time.Second
 		case "treinta segundos":
-			return (30 * time.Second)
+			return 30 * time.Second
 		}
 	}
 	return 1 * time.Second
